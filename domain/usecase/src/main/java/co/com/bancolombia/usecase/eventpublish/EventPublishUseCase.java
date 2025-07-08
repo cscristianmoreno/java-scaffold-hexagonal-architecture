@@ -14,7 +14,7 @@ public class EventPublishUseCase implements EventsGateway {
     }
 
     @Override
-    public Mono<Void> emit(Stats event) {
+    public Mono<Void> emit(Object event) {
         return eventsGateway.emit(event);
     }
 }

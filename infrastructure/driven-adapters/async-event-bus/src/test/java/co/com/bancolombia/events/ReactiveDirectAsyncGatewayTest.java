@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.reactivecommons.async.api.DirectAsyncGateway;
 
-import co.com.bancolombia.model.stats.Stats;
 import reactor.core.publisher.Mono;
 import org.reactivecommons.api.domain.Command;
 import org.reactivecommons.async.api.AsyncQuery;
@@ -38,7 +37,7 @@ class ReactiveDirectAsyncGatewayTest {
         };
         when(directAsyncGateway.sendCommand(any(Command.class), any(String.class))).thenReturn(Mono.empty());
 
-        gateway.runRemoteJob((Stats) command).block();
+        gateway.runRemoteJob(command).block();
 
         ArgumentCaptor<Command> commandCaptor = ArgumentCaptor.forClass(Command.class);
         verify(directAsyncGateway, times(1)).sendCommand(commandCaptor.capture(), eq(ReactiveDirectAsyncGateway.TARGET_NAME));

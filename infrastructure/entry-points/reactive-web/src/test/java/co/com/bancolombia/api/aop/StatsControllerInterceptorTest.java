@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.aopalliance.intercept.Joinpoint;
-import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -24,9 +22,6 @@ import co.com.bancolombia.model.stats.Stats;
 public class StatsControllerInterceptorTest {
     private ValidationMD5Service validationMD5Service;
     private StatsControllerInterceptor statsControllerInterceptor;
-
-    @Mock
-    private JoinPoint joinPoint;
 
     private Stats stats;
 

@@ -8,8 +8,6 @@ import org.mockito.MockitoAnnotations;
 import reactor.core.publisher.Mono;
 import org.reactivecommons.api.domain.DomainEventBus;
 
-import co.com.bancolombia.model.stats.Stats;
-
 import org.reactivecommons.api.domain.DomainEvent;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -39,7 +37,7 @@ class ReactiveEventsGatewayTest {
 
         when(domainEventBus.emit(any(DomainEvent.class))).thenReturn(Mono.empty());
 
-        reactiveEventsGateway.emit((Stats) event).block();
+        reactiveEventsGateway.emit(event).block();
 
         verify(domainEventBus, times(1)).emit(any(DomainEvent.class));
     }
@@ -57,7 +55,7 @@ class ReactiveEventsGatewayTest {
 
         when(domainEventBus.emit(any(DomainEvent.class))).thenReturn(Mono.empty());
 
-        reactiveEventsGateway.emit((Stats) event).block();
+        reactiveEventsGateway.emit(event).block();
 
         ArgumentCaptor<DomainEvent> eventCaptor = ArgumentCaptor.forClass(DomainEvent.class);
         verify(domainEventBus, times(1)).emit(eventCaptor.capture());

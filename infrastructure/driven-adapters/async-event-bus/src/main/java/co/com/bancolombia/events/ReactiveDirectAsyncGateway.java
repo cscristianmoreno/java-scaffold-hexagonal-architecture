@@ -24,7 +24,7 @@ public class ReactiveDirectAsyncGateway {
     private final DirectAsyncGateway gateway;
 
 
-    public Mono<Void> runRemoteJob(Stats command/*change for proper model*/)  {
+    public Mono<Void> runRemoteJob(Object command/*change for proper model*/)  {
         log.log(Level.INFO, "Sending command: {0}: {1}", new String[]{SOME_COMMAND_NAME, command.toString()});
         return gateway.sendCommand(new Command<>(SOME_COMMAND_NAME, UUID.randomUUID().toString(), command),
                         TARGET_NAME);
