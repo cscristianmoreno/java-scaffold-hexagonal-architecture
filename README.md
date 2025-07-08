@@ -40,6 +40,7 @@ public class StatsController implements IStatsController {
 ### El cuerpo del request será un JSON con la siguiente estructura:
 <details>
 <summary>Detalles</summary>
+
 ```java
 {
     "totalContactoClientes": 250,
