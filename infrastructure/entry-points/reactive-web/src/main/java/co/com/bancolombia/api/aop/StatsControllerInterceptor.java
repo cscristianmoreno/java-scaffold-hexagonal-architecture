@@ -17,7 +17,7 @@ import co.com.bancolombia.model.stats.Stats;
 @Component
 @Aspect
 public class StatsControllerInterceptor {
-    private String md5Hash = HashUtil.getMd5Hash();
+    private final String md5Hash = HashUtil.getMd5Hash();
 
     private final ValidationMD5Service validationMD5Service;
     // private final 
@@ -42,10 +42,19 @@ public class StatsControllerInterceptor {
      * @throws Exception 
      */
     @Before("verifyMD5Interceptor()")
-    public void verifyMD5(JoinPoint joinPoint) throws Exception {
+    public void validateStat(JoinPoint joinPoint) throws Exception {
         /** Obtenemos el parámetro del método! */
         Stats stats = (Stats) joinPoint.getArgs()[0];
 
+        /** Verificar el hash! */
+        String hash = verifyMD5(stats);
+
+        /** Añadir el hash a timestamp!  */
+        stats.setHash(hash);
+        stats.setTimestamp(hash);
+    }
+
+    public String verifyMD5(Stats stats) throws Exception {
         /** Si la request no contiene el campo "hash" o está vacía o contiene espacios
          * lanzar una excepción!
          */
@@ -75,7 +84,6 @@ public class StatsControllerInterceptor {
             throw new InvalidHashException(message);
         }
 
-        stats.setHash(hash);
-        stats.setTimestamp(hash);
+        return hash;
     }
 }

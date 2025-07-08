@@ -12,7 +12,7 @@ public class StatsRepositoryUseCase  {
     }
 
     // @Override
-    public Mono<Stats> save(Stats stats) {
+    public Mono<Object> save(Stats stats) {
         return drivenAdapter.save(stats);
     }
 }

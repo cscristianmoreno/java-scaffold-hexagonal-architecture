@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @Repository
-public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Stats /*domain model*/, String, StatsEntity /*adapter model*/> implements IStatsRepository/* implements Gateway from domain */ {
+public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Object /*domain model*/, String, StatsEntity /*adapter model*/> implements IStatsRepository/* implements Gateway from domain */ {
 
     public DynamoDBTemplateAdapter(DynamoDbEnhancedAsyncClient connectionFactory, ObjectMapper mapper) {
         /**
@@ -27,12 +27,12 @@ public class DynamoDBTemplateAdapter extends TemplateAdapterOperations<Stats /*d
         super(connectionFactory, mapper, d -> mapper.map(d, Stats.class /*domain model*/), "stats_table" /*index is optional*/);
     }
 
-    public Mono<List<Stats>> getEntityBySomeKeys(String partitionKey, String sortKey) {
+    public Mono<List<Object>> getEntityBySomeKeys(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return query(queryExpression);
     }
 
-    public Mono<List<Stats>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
+    public Mono<List<Object>> getEntityBySomeKeysByIndex(String partitionKey, String sortKey) {
         QueryEnhancedRequest queryExpression = generateQueryExpression(partitionKey, sortKey);
         return queryByIndex(queryExpression /*index is optional if you define in constructor*/);
     }

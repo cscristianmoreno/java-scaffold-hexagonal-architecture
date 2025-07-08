@@ -53,9 +53,7 @@ class TemplateAdapterOperationsTest {
         DynamoDBTemplateAdapter dynamoDBTemplateAdapter =
                 new DynamoDBTemplateAdapter(dynamoDbEnhancedAsyncClient, mapper);
 
-        Stats stats = mapper.map(modelEntity, Stats.class);
-
-        StepVerifier.create(dynamoDBTemplateAdapter.save(stats))
+        StepVerifier.create(dynamoDBTemplateAdapter.save(modelEntity))
                 .expectNextCount(1)
                 .verifyComplete();
     }
