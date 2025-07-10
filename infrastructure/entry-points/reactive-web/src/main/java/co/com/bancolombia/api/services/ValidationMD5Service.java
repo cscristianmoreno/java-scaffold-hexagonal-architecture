@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
+import co.com.bancolombia.api.exceptions.InvalidHashException;
 import co.com.bancolombia.api.models.services.IValidationMD5Service;
 import co.com.bancolombia.api.utils.HashUtil;
+import co.com.bancolombia.model.stats.Stats;
 
 @Service
 public class ValidationMD5Service implements IValidationMD5Service {
@@ -26,8 +28,18 @@ public class ValidationMD5Service implements IValidationMD5Service {
      */
     @Override
     public <T> String hash(T object) throws Exception {
+
+        if (object == null) {
+            throw new InvalidHashException("Error al generar el hash!");
+        }
+
         /** Obtener la clase! */
         Class<?> clazz = object.getClass();
+
+        /** Detectar si la clase es asignable a Stats */
+        if (!clazz.isAssignableFrom(Stats.class)) {
+            throw new InvalidHashException("El objeto no coincide!");
+        }
 
         /** Obtener los campos de la clase! */
         Field[] fields = clazz.getDeclaredFields();
@@ -65,11 +77,15 @@ public class ValidationMD5Service implements IValidationMD5Service {
         .mapToObj(String::valueOf).collect(Collectors.joining(","));
         
         /** Se convierte el string en MD5 Hasheado! */
-        return DigestUtils.md5Hex(arrayToString);
+        return HashUtil.hash(arrayToString);
     }
 
     @Override
     public <T> boolean verify(String hash) {
+        if (hash == null) {
+            throw new InvalidHashException("La verificación del hash devolvió nulo");
+        }
+
         return hash.matches(hashToVerified);
     }
     

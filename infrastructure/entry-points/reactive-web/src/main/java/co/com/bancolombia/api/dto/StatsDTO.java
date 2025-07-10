@@ -14,4 +14,5 @@ public class StatsDTO {
     private int motivoCompra;
     private int motivoFelicitaciones;
     private int motivoCambio;
+    private String hash;
 }

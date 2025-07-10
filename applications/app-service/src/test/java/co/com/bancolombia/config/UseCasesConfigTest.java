@@ -5,7 +5,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import co.com.bancolombia.model.events.gateways.EventsGateway;
+import co.com.bancolombia.model.stats.gateways.IStatsRepository;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 public class UseCasesConfigTest {
 
@@ -13,7 +18,7 @@ public class UseCasesConfigTest {
      * no es posible acceder a ellas así nomas, para ello se desactiva
      * este test y se hace test manual a cada clase!
      */
-    // @Test
+    @Test
     void testUseCaseBeansExist() {
         try (AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class)) {
             String[] beanNames = context.getBeanDefinitionNames();
@@ -35,14 +40,18 @@ public class UseCasesConfigTest {
     static class TestConfig {
 
         @Bean
-        public MyUseCase myUseCase() {
-            return new MyUseCase();
+        public IStatsRepository statPersistenceGateway() {
+            return mock(IStatsRepository.class);
         }
-    }
 
-    static class MyUseCase {
-        public String execute() {
-            return "MyUseCase Test";
+        @Bean
+        public EventsGateway statEventPublisher() {
+            return mock(EventsGateway.class);
         }
+
+        // @Bean
+        // public MyUseCase myUseCase() {
+        //     return new MyUseCase();
+        // }
     }
 }

@@ -43,8 +43,13 @@ public class StatsControllerInterceptor {
      */
     @Before("verifyMD5Interceptor()")
     public void validateStat(JoinPoint joinPoint) throws Exception {
+        
         /** Obtenemos el parámetro del método! */
         Stats stats = (Stats) joinPoint.getArgs()[0];
+
+        if (stats == null) {
+            throw new InvalidHashException("El objeto del interceptor devolvió null!");
+        }
 
         /** Verificar el hash! */
         String hash = verifyMD5(stats);
